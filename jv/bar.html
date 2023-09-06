@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+            .analysis {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            }
+    </style>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart', 'controls']});
+      google.charts.setOnLoadCallback(drawStuff);
+      
+
+      
+      function drawStuff() {
+
+        var dashboard = new google.visualization.Dashboard(
+          document.getElementById('programmatic_dashboard_div'));
+
+        // We omit "var" so that programmaticSlider is visible to changeRange.
+        var programmaticSlider = new google.visualization.ControlWrapper({
+          'controlType': 'NumberRangeFilter',
+          'containerId': 'programmatic_control_div',
+          'options': {
+            'filterColumnLabel': 'coffee sales monthly',
+            'ui': {'labelStacking': 'vertical'}
+          }
+        });
+
+        var programmaticChart  = new google.visualization.ChartWrapper({
+          'chartType': 'PieChart',
+          'containerId': 'programmatic_chart_div',
+          'options': {
+            'width': 300,
+            'height': 300,
+            'legend': 'none',
+            'chartArea': {'left': 15, 'top': 15, 'right': 0, 'bottom': 0},
+            'pieSliceText': 'value'
+          }
+        });
+
+        var data = google.visualization.arrayToDataTable([
+          ['Name', 'coffee sales monthly'],
+          ['Bolivia' , 5],
+          ['Ecuador', 7],
+          ['Madagascar', 3],
+          ['Papua New', 2],
+          ['Guinea', 6],
+          
+        ]);
+
+        dashboard.bind(programmaticSlider, programmaticChart);
+        dashboard.draw(data);
+
+        changeRange = function() {
+          programmaticSlider.setState({'lowValue': 2, 'highValue': 5});
+          programmaticSlider.draw();
+        };
+
+        changeOptions = function() {
+          programmaticChart.setOption('is3D', true);
+          programmaticChart.draw();
+        };
+      }
+      
+      // Additional Google Charts code for the second chart
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+          ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+          ['2004/05',  165,      938,         522,             998,           450,      614.6],
+          ['2005/06',  135,      1120,        599,             1268,          288,      682],
+          ['2006/07',  157,      1167,        587,             807,           397,      623],
+          ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+          ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+        ]);
+
+        var options = {
+          title : 'Monthly Coffee Production by Country',
+          vAxis: {title: 'Cups'},
+          hAxis: {title: 'Month'},
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <center>
+        <header>
+          <h1>Web Interface using Google charts and charts using D3.js library (Monthly Coffee Production by Country)</h1>
+        </header>
+      </center>
+      <h3></h3>
+    <div id="programmatic_dashboard_div" style="border: 1px solid #ccc">
+      <table class="columns">
+        <tr>
+          <td>
+            <div id="programmatic_control_div" style="padding-left: 2em; min-width: 250px"></div>
+            <div>
+              <button style="margin: 1em 1em 1em 2em" onclick="changeRange();">
+                Select range [2, 5]
+              </button><br />
+              <button style="margin: 1em 1em 1em 2em" onclick="changeOptions();">
+                Make the pie chart 3D
+              </button>
+            </div>
+          </td>
+          <td>
+            <div id="programmatic_chart_div"></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="chart_div" style="width: 1500px; height: 350px;"></div>
+    <div class="analysis">
+        <center><h2>ANALYSIS</h2></center>
+        <p>1. Pie Chart - Monthly Coffee Sales by Country:
+
+            The pie chart displays the distribution of coffee sales by country.
+            Each slice of the pie represents a country, and the size of the slice corresponds to the proportion of coffee sales for that country.
+            In this chart, the data shows that Ecuador has the highest coffee sales, followed by Guinea and Bolivia. Papua New and Madagascar have comparatively lower sales.
+            The chart is interactive, allowing users to filter the data using the range slider and toggle the 3D view of the chart with buttons.</p>
+          
+        <p>2. Combo Chart - Monthly Coffee Production by Country:
+
+            The combo chart displays monthly coffee production by country, combining both bar and line chart elements.
+            The bars represent the monthly production of coffee for each country, while the line represents the average production.
+            It provides a visual comparison of coffee production trends for different countries over multiple months.
+            For example, in the year 2005/06, Ecuador had the highest production, while Rwanda had the lowest. The average production is represented by the line.
+            The chart's title, axes labels, and chart types are appropriately labeled for clarity.</p>    
+
+        <p>3. Confusion Matrix:
+
+            The confusion matrix is a table that helps evaluate the performance of a classification model, typically used in machine learning.
+            In this example, it shows the confusion between actual and predicted values, categorizing them as "Positive" and "Negative."
+            It can be useful for assessing the accuracy of a predictive model by comparing how well it predicts positive and negative outcomes.
+            For instance, in your data, there are 5 true positive predictions, 3 true negative predictions, 2 false positive predictions, and 1 false negative prediction.</p>  
+            
+        <p>4. Regression Table:
+
+            The regression table provides information about the coefficients of a regression model.
+            In this example, it displays coefficients for the intercept and the "Coffee Sales Monthly" variable.
+            The coefficients represent the relationship between the predictor variable (Coffee Sales Monthly) and the target variable.
+            In this case, the intercept is 0.75, indicating a base value, and the coefficient for "Coffee Sales Monthly" is 1.2, showing how changes in coffee sales affect the target variable.
+            This table can be useful for understanding the linear relationship between variables in a regression analysis.
+            Overall, these charts and tables provide valuable insights into coffee sales, production, model performance, and regression coefficients. They are visually appealing and offer interactive features for data exploration and analysis.</p>    
+    </div>
+  </body>
+</html>
